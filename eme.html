@@ -1,78 +1,86 @@
 <html lang="en-US">
 
 <head>
-<script>
+    <style>
+        .success {
+            background: green;
+            color: white;
+        }
 
-var config = [{
-  "initDataTypes": ["cenc"],
-  "audioCapabilities": [{
-    "contentType": "audio/mp4;codecs=\"mp4a.40.2\""
-  }],
-  "videoCapabilities": [{
-    "contentType": "video/mp4;codecs=\"avc1.42E01E\""
-  }]
-}];
+        .fail {
+            background: grey;
+            color: red;
+        }
+    </style>
+    <script>
 
-var setResults = function(elem, result) {
-	elem.innerHTML = result;
-};
+        var config = [{
+            "initDataTypes": ["cenc"],
+            "audioCapabilities": [{
+                "contentType": "audio/mp4;codecs=\"mp4a.40.2\""
+            }],
+            "videoCapabilities": [{
+                "contentType": "video/mp4;codecs=\"avc1.42E01E\""
+            }]
+        }];
 
-var tests = {
+        var setResults = function (elem, result) {
+            elem.innerHTML = '<div class="' + (result ? 'success' : 'fail') + '">' + result + '</div>';
+        };
 
-	"navigator.requestMediaKeySystemAccess": function(onComplete){
-		onComplete(navigator.requestMediaKeySystemAccess);
-	},
+        var tests = {
 
-	"navigator.requestMediaKeySystemAccess(com.widevine.alpha)": function(onComplete){
-	  try {
-	  	navigator.requestMediaKeySystemAccess("com.widevine.alpha", config).
-		  then(function(mediaKeySystemAccess) {
-			onComplete(true);
-		  }).catch(function(e) {
-			onComplete(false, e);
-		  });
-		} catch (e) {
-			onComplete(false, e);
-		}
-	},
+            "navigator.requestMediaKeySystemAccess": function (onComplete) {
+                onComplete(navigator.requestMediaKeySystemAccess);
+            },
 
-	"navigator.requestMediaKeySystemAccess(com.microsoft.playready)": function(onComplete){
-	  try {
-	  		navigator.requestMediaKeySystemAccess("com.microsoft.playready", config).
-		  then(function(mediaKeySystemAccess) {
-			onComplete(true);
-		  }).catch(function(e) {
-			onComplete(false, e);
-		  });
-		} catch (e) {
-			onComplete(false, e);
-		}
-	},
+            "navigator.requestMediaKeySystemAccess(com.widevine.alpha)": function (onComplete) {
+                try {
+                    navigator.requestMediaKeySystemAccess("com.widevine.alpha", config).then(function (mediaKeySystemAccess) {
+                        onComplete(true);
+                    }).catch(function (e) {
+                        onComplete(false, e);
+                    });
+                } catch (e) {
+                    onComplete(false, e);
+                }
+            },
 
-	"navigator.requestMediaKeySystemAccess(org.w3.clearkey)": function(onComplete){
-        try {
-	  		navigator.requestMediaKeySystemAccess("org.w3.clearkey", config).
-		  then(function(mediaKeySystemAccess) {
-			onComplete(true);
-		  }).catch(function(e) {
-			onComplete(false, e);
-		  });
-		} catch (e) {
-			onComplete(false, e);
-		}
-	},
+            "navigator.requestMediaKeySystemAccess(com.microsoft.playready)": function (onComplete) {
+                try {
+                    navigator.requestMediaKeySystemAccess("com.microsoft.playready", config).then(function (mediaKeySystemAccess) {
+                        onComplete(true);
+                    }).catch(function (e) {
+                        onComplete(false, e);
+                    });
+                } catch (e) {
+                    onComplete(false, e);
+                }
+            },
 
-	"video.canPlayType('video/mp4; codecs=\"avc1.640028\"','com.widevine.alpha')": function(onComplete){
-		var video =document.createElement('video');
+            "navigator.requestMediaKeySystemAccess(org.w3.clearkey)": function (onComplete) {
+                try {
+                    navigator.requestMediaKeySystemAccess("org.w3.clearkey", config).then(function (mediaKeySystemAccess) {
+                        onComplete(true);
+                    }).catch(function (e) {
+                        onComplete(false, e);
+                    });
+                } catch (e) {
+                    onComplete(false, e);
+                }
+            },
 
-		onComplete(video.canPlayType('video/mp4; codecs="avc1.640028"','com.widevine.alpha'))
+            "video.canPlayType('video/mp4; codecs=\"avc1.640028\"','com.widevine.alpha')": function (onComplete) {
+                var video = document.createElement('video');
 
-	}
+                onComplete(video.canPlayType('video/mp4; codecs="avc1.640028"', 'com.widevine.alpha'))
+
+            }
 
 
-};
+        };
 
-</script>
+    </script>
 
 </head>
 <body>
@@ -84,24 +92,24 @@ var tests = {
 
 <script>
 
-(function(){
-	var results = document.createElement('ul');
-	for(key in tests) {
-		var test = document.createElement('li');
-		var label = document.createElement('h2');
-		label.appendChild(document.createTextNode(key));
-		test.appendChild(label);
+    (function () {
+        var results = document.createElement('ul');
+        for (key in tests) {
+            var test = document.createElement('li');
+            var label = document.createElement('h2');
+            label.appendChild(document.createTextNode(key));
+            test.appendChild(label);
 
-		var elem = document.createElement('pre');
-		test.appendChild(elem);
-		tests[key](setResults.bind(window, elem));
+            var elem = document.createElement('pre');
+            test.appendChild(elem);
+            tests[key](setResults.bind(window, elem));
 
-		results.appendChild(test);
+            results.appendChild(test);
 
-	}
+        }
 
-	document.body.appendChild(results);
-})();
+        document.body.appendChild(results);
+    })();
 </script>
 
 
