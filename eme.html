@@ -1,0 +1,108 @@
+<html lang="en-US">
+
+<head>
+<script>
+
+var config = [{
+  "initDataTypes": ["cenc"],
+  "audioCapabilities": [{
+    "contentType": "audio/mp4;codecs=\"mp4a.40.2\""
+  }],
+  "videoCapabilities": [{
+    "contentType": "video/mp4;codecs=\"avc1.42E01E\""
+  }]
+}];
+
+var setResults = function(elem, result) {
+	elem.innerHTML = result;
+};
+
+var tests = {
+
+	"navigator.requestMediaKeySystemAccess": function(onComplete){
+		onComplete(navigator.requestMediaKeySystemAccess);
+	},
+
+	"navigator.requestMediaKeySystemAccess(com.widevine.alpha)": function(onComplete){
+	  try {
+	  	navigator.requestMediaKeySystemAccess("com.widevine.alpha", config).
+		  then(function(mediaKeySystemAccess) {
+			onComplete(true);
+		  }).catch(function(e) {
+			onComplete(false, e);
+		  });
+		} catch (e) {
+			onComplete(false, e);
+		}
+	},
+
+	"navigator.requestMediaKeySystemAccess(com.microsoft.playready)": function(onComplete){
+	  try {
+	  		navigator.requestMediaKeySystemAccess("com.microsoft.playready", config).
+		  then(function(mediaKeySystemAccess) {
+			onComplete(true);
+		  }).catch(function(e) {
+			onComplete(false, e);
+		  });
+		} catch (e) {
+			onComplete(false, e);
+		}
+	},
+
+	"navigator.requestMediaKeySystemAccess(org.w3.clearkey)": function(onComplete){
+        try {
+	  		navigator.requestMediaKeySystemAccess("org.w3.clearkey", config).
+		  then(function(mediaKeySystemAccess) {
+			onComplete(true);
+		  }).catch(function(e) {
+			onComplete(false, e);
+		  });
+		} catch (e) {
+			onComplete(false, e);
+		}
+	},
+
+	"video.canPlayType('video/mp4; codecs=\"avc1.640028\"','com.widevine.alpha')": function(onComplete){
+		var video =document.createElement('video');
+
+		onComplete(video.canPlayType('video/mp4; codecs="avc1.640028"','com.widevine.alpha'))
+
+	}
+
+
+};
+
+</script>
+
+</head>
+<body>
+<h1>EME Tests (Requires HTTPs)</h1>
+
+
+</body>
+
+
+<script>
+
+(function(){
+	var results = document.createElement('ul');
+	for(key in tests) {
+		var test = document.createElement('li');
+		var label = document.createElement('h2');
+		label.appendChild(document.createTextNode(key));
+		test.appendChild(label);
+
+		var elem = document.createElement('pre');
+		test.appendChild(elem);
+		tests[key](setResults.bind(window, elem));
+
+		results.appendChild(test);
+
+	}
+
+	document.body.appendChild(results);
+})();
+</script>
+
+
+</html>

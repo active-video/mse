@@ -1,0 +1,48 @@
+ <!DOCTYPE html>
+<html>
+<!-- Media streaming example
+  Reads an .mpd file created using mp4box and plays the file
+-->
+<head>
+  <meta charset="utf-8" />
+  <title>Media streaming example</title>
+  <style>
+    body,div,video{
+      padding: 0;
+      margin: 0;
+    }
+  	video{
+  		width:1280px;
+  		height:720px;
+  	}
+  </style>
+  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.4/dash.all.debug.js"></script>-->
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.debug.js"></script>
+  <script>
+  	  var LICSENSE_SERVER = "https://licenseproxy.ha.iflix-second.vimondtv.com/license/wvmodular/44253?timeStamp=2017-12-12T22%3A17%3A13%2B0000&contentUrl=https%3A%2F%2Fiflix-videocdn.akamaized.net%2Fdb15b%2FMarvels_The_Avengers_Fea%2844253_ISMUSP%29_v2.ism%2FMarvels_The_Avengers_Fea%2844253_ISMUSP%29_v2.mpd&contract=d760b5854181dd7a6a02f0b08081bc3d&securityToken=YuufA4v5tILZan3JtIaTBTbW7G-SZ02IBQzhxHV5IBM&account=source";
+  	  var player;
+  	
+      function init() {
+          var video,
+              url = "https://iflix-videocdn-p1.akamaized.net/db15b/Marvels_The_Avengers_Fea(44253_ISMUSP)_v2.ism/Marvels_The_Avengers_Fea(44253_ISMUSP)_v2.mpd?idx=0&userId=5571648"; 
+          video = document.querySelector("video");
+          player = dashjs.MediaPlayer().create();
+          
+          //player.attachProtectionData({"com.widevine.alpha": new dashjs.MediaPlayer.vo.protection.ProtectionData(LICSENSE_SERVER)});
+          player.attachProtectionController({"com.widevine.alpha": {
+			  serverURL: LICSENSE_SERVER
+		  }});
+          
+          player.initialize(video, url, true);
+      }
+  </script>
+</head>
+
+
+
+<body onload="init();">
+  <video data-dashjs-player autoplay></video>
+</body>
+</html>
+

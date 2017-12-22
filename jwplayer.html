@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript">
+        /** ********
+         *
+         * JWPlayer Shims
+         *      1) CloudTV Player sometimes doesn't have Storage/LocalStorage APIs if no PSM
+         *      2) CloudTV Player generally uses WebkitMediaSource (not MediaSource) so create pointer
+         *
+         */
+
+
+        //just in case running on a VM of CloudTV without a persistent storage engine (PSM)
+        StorageShim = {
+            _data: {},
+            setItem: function (id, val) {
+                return this._data[id] = String(val);
+            },
+            getItem: function (id) {
+                return this._data.hasOwnProperty(id) ? this._data[id] : undefined;
+            },
+            removeItem: function (id) {
+                return delete this._data[id];
+            },
+            clear: function () {
+                return this._data = {};
+            }
+        };
+
+        window.localStorage = window.localStorage || StorageShim;
+        window.Storage = window.Storage || StorageShim;
+        window.MediaSource = window.MediaSource || window.WebkitMediaSource;
+
+    </script>
+
+    <!--<script src="http://jwpsrv.com/library/6hSq+p4FEeOUdSIACmOLpg.js"></script>-->
+    <script src="6hSq+p4FEeOUdSIACmOLpg.js"></script>
+    <style>
+        body, div, video {
+            margin: 0;
+            padding: 0;
+        }
+
+        div#player {
+            width: 1280px;
+            height: 720px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="player"></div>
+
+<script>
+    'use strict';
+
+    function logEvent(type, event) {
+        console.log('Event "' + type + '"', event);
+
+        switch (type) {
+
+
+            case "onSetupError":
+                console.log(Object.keys(event));
+                console.log(JSON.stringify(event));
+                break;
+
+        }
+        ;
+
+    }
+
+    var player = jwplayer('player');
+    var eventListeners = {};
+
+    for (var prop in player) {
+        if (prop.indexOf('on') === 0) {
+            eventListeners[prop] = logEvent.bind(player, prop);
+            console.log("Subscribing to " + prop + " event");
+        }
+    }
+
+    player.setup({
+        playlist: [{
+            file: "http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd",
+            type: "dash"
+
+        }],
+        autostart: true,
+
+        width: 1280,
+        height: 720,
+        stretching: "none",
+        controls: false,
+        repeat: true,
+        events: eventListeners
+    });
+
+</script>
+
+
+</body>
+
+</html>

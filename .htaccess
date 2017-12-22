@@ -1,0 +1,10 @@
+Options +Indexes
+IndexOptions FancyIndexing FoldersFirst NameWidth=30 DescriptionWidth=30
+
+# Enable expirations
+ExpiresActive On 
+# Default directive
+ExpiresDefault "access plus 1 seconds"
+
+
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
