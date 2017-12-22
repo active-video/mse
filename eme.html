@@ -100,7 +100,7 @@
             label.appendChild(document.createTextNode(key));
             test.appendChild(label);
 
-            var elem = document.createElement('pre');
+            var elem = document.createElement('div');
             test.appendChild(elem);
             tests[key](setResults.bind(window, elem));
 
