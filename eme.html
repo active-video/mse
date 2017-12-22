@@ -75,9 +75,23 @@
 
                 onComplete(video.canPlayType('video/mp4; codecs="avc1.640028"', 'com.widevine.alpha'))
 
+            },
+
+
+
+            "video.canPlayType('video/mp4; codecs=\"avc1.640028\"','com.microsoft.playready')": function (onComplete) {
+                var video = document.createElement('video');
+
+                onComplete(video.canPlayType('video/mp4; codecs="avc1.640028"', 'com.microsoft.playready'))
+
+            },
+
+            "video.canPlayType('video/mp4; codecs=\"avc1.640028\"','org.w3.clearkey')": function (onComplete) {
+                var video = document.createElement('video');
+
+                onComplete(video.canPlayType('video/mp4; codecs="avc1.640028"', 'org.w3.clearkey'))
+
             }
-
-
         };
 
     </script>
