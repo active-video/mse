@@ -1,0 +1,26 @@
+{
+  "name": "mse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node node_modules/http-server/bin/http-server -c-1 -S -C ./ssl/cert.pem -K ./ssl/key.pem -o",
+    "startprod": "node node_modules/http-server/bin/http-server -c-1 -S -C ../ssl/cert.pem -K ./ssl/key.pem -o",
+    "ssl-gen": "cd ssl && openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -subj '/CN=localhost' -sha256 -nodes"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/active-video/mse.git"
+  },
+  "author": "Chad Wagner, Ven Virtusio (ActiveVideo)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/active-video/mse/issues"
+  },
+  "homepage": "https://github.com/active-video/mse#readme",
+  "dependencies": {
+    "dashjs": "github:active-video/dash.js#hotfix/2.3.1",
+    "http-server": "^0.11.1",
+    "videojs-contrib-dash": "^2.9.2"
+  }
+}
