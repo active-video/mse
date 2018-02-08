@@ -1,0 +1,37 @@
+<html>
+
+
+
+
+<video id=example-video width=600 height=300 class="video-js vjs-default-skin" controls></video>
+<script src="node_modules/video.js/dist/video.js"></script>
+
+<!-- Dash.js -->
+<script src="node_modules/dashjs/dist/dash.all.debug.js"></script>
+
+<!-- videojs-contrib-dash script -->
+<script src="node_modules/videojs-contrib-dash/dist/videojs-dash.js"></script>
+
+<script>
+    var player = videojs('example-video');
+
+    player.ready(function() {
+        player.src({
+            src: 'https://vuclip-a.akamaihd.net/478e75d8f067939728ba1794a5b04adf/vp63207_V20180104235742/mpegdash_ck/vod_wv.mpd',
+            type: 'application/dash+xml',
+            keySystemOptions: [
+                {
+                    name: 'com.widevine.alpha',
+                    options: {
+                        serverURL: 'https://vvanvod-prod.viuing.io/v1/drm/1164046647'
+                    }
+                }
+            ]
+        });
+
+        player.play();
+    });
+</script>
+
+
+</html>
